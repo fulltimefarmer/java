@@ -1,0 +1,38 @@
+### Java template
+# Compiled class file
+*.class
+
+# Log file
+logs/
+*.log
+*.log.*.gz
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Others
+target/
+.DS_Store
+.mvn
+mvnw
+mvnw.cmd
