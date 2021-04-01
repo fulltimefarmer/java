@@ -1,14 +1,11 @@
 package org.max.java;
 
-import java.io.UnsupportedEncodingException;
+import org.apache.commons.lang.StringUtils;
 
 public class Main {
 	
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		
-	}
-	
+	public static void main(String[] args) {
 
-    
+	}	
 	
 }
