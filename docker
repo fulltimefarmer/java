@@ -1,0 +1,54 @@
+docker run -itd --name mariadb \
+  -p 3306:3306 \
+  -e MYSQL_ROOT_PASSWORD=123456 \
+  -v /Users/zhoujun/docker/mariadb/data:/var/lib/mysql \
+  mariadb
+
+docker run -itd --name postgres \
+ -p 5432:5432 \
+ -e POSTGRES_PASSWORD=123456 \
+ -v /Users/zhoujun/docker/postgresql/data:/var/lib/postgresql/data \
+ postgres 
+ 
+docker run -itd --name redis \
+ -p 6379:6379 \
+ -v /Users/zhoujun/docker/redis/config/redis.conf:/etc/redis/redis.conf \
+ -v /Users/zhoujun/docker/redis/data:/data \
+ redis redis-server /etc/redis/redis.conf  
+
+docker run -itd --name mongo \
+ -p 27017:27017 \
+ -e TZ=Asia/Shanghai \
+ -e MONGO_INITDB_ROOT_USERNAME=admin \
+ -e MONGO_INITDB_ROOT_PASSWORD=123456 \
+ -v /Users/zhoujun/docker/mongo/db:/data/db \
+ mongo
+
+docker run -itd --name elasticsearch \
+ -p 9200:9200 \
+ -p 9300:9300 \
+ -e "discovery.type=single-node" \
+ -v /Users/zhoujun/docker/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \
+ -v /Users/zhoujun/docker/elasticsearch/data:/usr/share/elasticsearch/data \
+ -v /Users/zhoujun/docker/elasticsearch/plugins:/usr/share/elasticsearch/plugins \
+ elasticsearch:7.16.2
+
+docker run -itd --name neo4j -p 7474:7474 -p 7687:7687 neo4j
+
+docker run -itd --name=activemq \
+  -p 8161:8161 \
+  -p 61616:61616 \
+  -e ACTIVEMQ_ADMIN_LOGIN=admin \
+  -e ACTIVEMQ_ADMIN_PASSWORD=123456 \
+  webcenter/activemq
+
+docker run -itd --name=rabbitmq \
+  -p 15672:15672 \
+  -p 5672:5672 \
+  -e RABBITMQ_DEFAULT_USER=admin \
+  -e RABBITMQ_DEFAULT_PASS=123456 \
+  rabbitmq:3.8.16-management
+
+curl -i -u admin:admin -H "content-type:application/json" -XPUT http://localhost:15672/api/vhosts/payment-vh
+curl -i -u admin:admin -H "content-type:application/json" -XPUT http://localhost:15672/api/users/commerce-cn -d '{"password":"xE3GitOo5IDZHjb5","tags":"administrator"}'
+curl -i -u admin:admin -H "content-type:application/json" -XPOST http://localhost:15672/api/exchanges/payment-vh/ha_payment_authorization_topic/publish -d '{"properties":{},"routing_key":"COMMERCE","payload":"{\"notificationId\":\"592b048e-5d4e-402c-8ab0-3b9a222fd62e\",\"uniqueOrderId\":\"COM-DEV-HVFVVC463V\",\"amount\":0.01,\"amountRequested\":0.01,\"amountProcessed\":0.01,\"currencyCode\":\"CNY\",\"originalDecision\":\"QRRENDERED\",\"originalPaymentDateTime\":\"2022-08-01T02:01:59\",\"paymentFlow\":\"OFFLINE\",\"eventDate\":\"2022-08-01T02:02:11+0000\",\"eventType\":\"CHARGE_NOTIFICATION\",\"paymentType\":\"WECHATPAY\",\"decision\":\"ACCEPT\",\"paymentProcessor\":\"WECHAT\",\"rawEventMessage\":\"<xml><appid><![CDATA[wxfe472af81526dbf1]]></appid>\n<bank_type><![CDATA[OTHERS]]></bank_type>\n<cash_fee><![CDATA[1]]></cash_fee>\n<fee_type><![CDATA[CNY]]></fee_type>\n<is_subscribe><![CDATA[Y]]></is_subscribe>\n<mch_id><![CDATA[1587612991]]></mch_id>\n<nonce_str><![CDATA[ZxY7331ZsxR5SNK6lbuRe5Dla1ouj2A6]]></nonce_str>\n<openid><![CDATA[oYkmZt7Nv3wPoLy0SDYjCygJMbbE]]></openid>\n<out_trade_no><![CDATA[COM-DEV-HVFVVC463V]]></out_trade_no>\n<result_code><![CDATA[SUCCESS]]></result_code>\n<return_code><![CDATA[SUCCESS]]></return_code>\n<sign><![CDATA[C55AE46DF7333585977843A96CECA7171A08AEF94A3DC0ACEBAE42F2C38A5912]]></sign>\n<time_end><![CDATA[20220801100210]]></time_end>\n<total_fee>1</total_fee>\n<trade_type><![CDATA[NATIVE]]></trade_type>\n<transaction_id><![CDATA[4200001488202208013439531431]]></transaction_id>\n</xml>\",\"orderNumber\":\"COM-DEV-HVFVVC463V\",\"paymentChannel\":\"COMMERCE\",\"walletChannelBreakdown\":[],\"payorName\":\"Zhou Max\",\"countryCode\":\"CN\",\"userProfileId\":\"2103843599\",\"fraudScore\":0,\"metadata\":{\"appid\":\"wxfe472af81526dbf1\",\"environment\":\"feature-flags\",\"entityId\":\"2000\",\"email\":\"263138611@qq.com\",\"isPayXUI\":\"true\",\"isSplitOrderPayment\":\"false\",\"rgwSource\":\"v4\"},\"paymentReferenceNo\":\"6aa4afbe-7b11-4927-8d9a-0b109b63e243\",\"additionalData\":{},\"emailAddress\":\"263138611@qq.com\",\"routingOverridePayload\":{},\"forceRemove\":false,\"processWithProfile\":false,\"saveToProfile\":false,\"transactionNumber\":\"6aa4afbe-7b11-4927-8d9a-0b109b63e243\",\"authorizationId\":\"4200001488202208013439531431\"}","payload_encoding":"string"}'
